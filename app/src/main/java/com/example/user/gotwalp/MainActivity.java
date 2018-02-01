@@ -21,12 +21,9 @@ import com.google.android.gms.ads.MobileAds;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.StringTokenizer;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -55,14 +52,12 @@ public class MainActivity extends AppCompatActivity {
 	private List<Bitmap> bitmaps = new ArrayList<>();
 	private int currentPos = 0;
 	private int bitMapSize = 0;
-	private Locale locale;
 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		locale = new Locale(Locale.ENGLISH.getLanguage());
 		RelativeLayout rootLayout = findViewById(R.id.root_layout);
 		imageContainer = findViewById(R.id.image_container);
 		MobileAds.initialize(this, getString(R.string.admob_app_id));
