@@ -1,19 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<RelativeLayout
+	android:id="@+id/root_layout"
+	xmlns:ads="http://schemas.android.com/apk/res-auto"
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	tools:context="com.example.user.gotwalp.MainActivity">
 
-	<TextView
+
+
+	<LinearLayout
+		android:id="@+id/image_container"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical">
+
+	</LinearLayout>
+
+
+	<com.google.android.gms.ads.AdView
+		android:id="@+id/adView"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="Hello World!"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintRight_toRightOf="parent"
-		app:layout_constraintTop_toTopOf="parent"/>
+		android:layout_alignParentBottom="true"
+		android:layout_centerHorizontal="true"
+		ads:adSize="BANNER"
+		ads:adUnitId="@string/test_banner_home_footer">
 
-</android.support.constraint.ConstraintLayout>
+	</com.google.android.gms.ads.AdView>
+
+
+	<LinearLayout
+		android:id="@+id/button_container"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_above="@id/adView"
+		android:gravity="center"
+		android:layout_marginBottom="1dp"
+		android:orientation="horizontal">
+
+		<Button
+			android:id="@+id/left"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:background="@color/colorPrimary"
+			android:text="PREV"/>
+
+		<Button
+			android:id="@+id/ok"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:background="@color/colorPrimary"
+			android:text="ok"/>
+
+		<Button
+			android:id="@+id/right"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:background="@color/colorPrimary"
+			android:text="NEXT"/>
+
+
+	</LinearLayout>
+
+	<TextView
+		android:id="@+id/textView1"
+		android:text="POIHUGc IUGYvg"
+		android:textAllCaps="true"
+		android:textSize="100dp"
+		android:gravity="end"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:textColor="@color/colorPrimary"/>
+
+</RelativeLayout>
