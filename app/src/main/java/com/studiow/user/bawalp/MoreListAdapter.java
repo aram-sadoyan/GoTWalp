@@ -1,4 +1,4 @@
-package com.example.user.gotwalp;
+package com.studiow.user.bawalp;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -26,14 +25,11 @@ import java.util.List;
 public class MoreListAdapter extends ArrayAdapter<InfoParams> {
 
 
-	private List moreAppParams = new ArrayList<>();
 	private Context context = null;
-	private String packageName;
 
 
 	public MoreListAdapter(@NonNull Context context, @LayoutRes int resource, List moreAppParams) {
 		super(context, resource, moreAppParams);
-		this.moreAppParams = moreAppParams;
 		this.context = context;
 
 	}
@@ -65,6 +61,7 @@ public class MoreListAdapter extends ArrayAdapter<InfoParams> {
 				.asBitmap()
 				.into(viewHolder.imgInfo);
 
+
 //		//if (!packageName.equals(dataModel[0])) {
 //		//	viewHolder.txtName.setText(dataModel[1]);
 //			Glide.with(context)
@@ -75,9 +72,6 @@ public class MoreListAdapter extends ArrayAdapter<InfoParams> {
 		return convertView;
 	}
 
-	public void setPackageName(String packageName) {
-		this.packageName = packageName;
-	}
 
 	private static class ViewHolder {
 		TextView txtName;

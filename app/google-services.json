@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:936821281588:android:ceb626e86283cf0e",
+        "mobilesdk_app_id": "1:936821281588:android:d17628dcb61f5182",
         "android_client_info": {
-          "package_name": "com.example.user.gotwalp"
+          "package_name": "com.studiow.user.bawalp"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "936821281588-o4t84ak7vtfm2jrsp66t3nrphshcmrn1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.user.gotwalp",
+            "package_name": "com.studiow.user.bawalp",
             "certificate_hash": "b78828bf392649a53ecbeb9235fb5706e338d4b0"
           }
         },

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.example.user.gotwalp"
+<manifest package="com.studiow.user.bawalp"
 		  xmlns:android="http://schemas.android.com/apk/res/android">
 
 	<uses-permission android:name="android.permission.INTERNET"/>
 	<uses-permission android:name="android.permission.SET_WALLPAPER"/>
+	<uses-permission android:name="android.permission.WAKE_LOCK"/>
 
 	<application
-		android:name=".AdmobApplication"
+		android:name="com.studiow.user.bawalp.AdmobApplication"
 		android:allowBackup="true"
 		android:icon="@mipmap/ic_launcher"
 		android:label="@string/app_name"
@@ -14,7 +15,7 @@
 		android:supportsRtl="true"
 		android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
 		<activity
-			android:name=".SplashActivity"
+			android:name="com.studiow.user.bawalp.SplashActivity"
 			android:configChanges="keyboardHidden|orientation|screenSize"
 			android:screenOrientation="portrait"
 			android:theme="@style/SplashTheme">
@@ -25,7 +26,7 @@
 			</intent-filter>
 		</activity>
 		<activity
-			android:name=".MainActivity"
+			android:name="com.studiow.user.bawalp.MainActivity"
 			android:configChanges="keyboardHidden|orientation|screenSize"
 			android:screenOrientation="portrait">
 			<intent-filter>
@@ -42,12 +43,7 @@
 			android:name="com.google.android.gms.version"
 			android:value="@integer/google_play_services_version"/>
 
-		<activity android:name=".MoreActivity">
-		</activity>
-		<activity
-			android:name=".BaseActivity"
-			android:configChanges="keyboardHidden|orientation|screenSize"
-			android:screenOrientation="portrait">
+		<activity android:name="com.studiow.user.bawalp.MoreActivity">
 		</activity>
 	</application>
 

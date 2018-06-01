@@ -1,9 +1,11 @@
-package com.example.user.gotwalp;
+package com.studiow.user.bawalp;
 
 import android.app.WallpaperManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +34,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 	private AdView adView = null;
 
-	private String testBannerAd = "ca-app-pub-3940256099942544/6300978111";
+	//private String testBannerAd = "ca-app-pub-3940256099942544/6300978111";
 
 	private LinearLayout imageContainer = null;
 	private TextView textView = null;
@@ -87,10 +90,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		next = findViewById(R.id.right);
 		more = findViewById(R.id.more);
 		progressBar = findViewById(R.id.progress_bar);
+
+		AssetManager assetManager = getAssets();
 		enableClick();
 		textView = findViewById(R.id.textView1);
 		wallpaperManager = WallpaperManager.getInstance(getApplicationContext());
 		databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://wallpapers-63650.firebaseio.com/");
+
+		try {
+		  String[] imgPath = assetManager.list("bImage");
+			for (String anImgPath : imgPath) {
+				InputStream is = assetManager.open("bImage/" + anImgPath);
+				Bitmap bitmap = BitmapFactory.decodeStream(is);
+				bitmaps.add(bitmap);
+				bitMapSize = bitmaps.size();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		initViewByPos(0);
+
 		databaseReference.addValueEventListener(new ValueEventListener() {
 			@Override
 			public void onDataChange(DataSnapshot dataSnapshot) {
@@ -106,8 +126,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 					moreAppParamsInner[2] = String.valueOf(map1.get("url"));
 					moreAppParams.add(moreAppParamsInner);
 
-					final Bitmap bitmap = null;
-					final int finalI = i;
 					final int finalI1 = i;
 					Glide.with(MainActivity.this).load(String.valueOf(map1.get("url")))
 							.asBitmap()
