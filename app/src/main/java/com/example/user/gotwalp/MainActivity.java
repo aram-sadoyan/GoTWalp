@@ -106,8 +106,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 					moreAppParamsInner[2] = String.valueOf(map1.get("url"));
 					moreAppParams.add(moreAppParamsInner);
 
-					final Bitmap bitmap = null;
-					final int finalI = i;
 					final int finalI1 = i;
 					Glide.with(MainActivity.this).load(String.valueOf(map1.get("url")))
 							.asBitmap()

@@ -26,14 +26,11 @@ import java.util.List;
 public class MoreListAdapter extends ArrayAdapter<InfoParams> {
 
 
-	private List moreAppParams = new ArrayList<>();
-	private Context context = null;
-	private String packageName;
+	private Context context;
 
 
-	public MoreListAdapter(@NonNull Context context, @LayoutRes int resource, List moreAppParams) {
+	MoreListAdapter(@NonNull Context context, @LayoutRes int resource, List moreAppParams) {
 		super(context, resource, moreAppParams);
-		this.moreAppParams = moreAppParams;
 		this.context = context;
 
 	}
@@ -64,19 +61,10 @@ public class MoreListAdapter extends ArrayAdapter<InfoParams> {
 				.load(stream.toByteArray())
 				.asBitmap()
 				.into(viewHolder.imgInfo);
-
-//		//if (!packageName.equals(dataModel[0])) {
-//		//	viewHolder.txtName.setText(dataModel[1]);
-//			Glide.with(context)
-//					.load("https://firebasestorage.googleapis.com/v0/b/wallpapers-63650.appspot.com/o/images%2Fgicon.jpg?alt=media&token=5d5dbe1d-1824-4c04-8537-af7656682418")
-//					.into(viewHolder.imgInfo);
-//		//}
-
 		return convertView;
 	}
 
-	public void setPackageName(String packageName) {
-		this.packageName = packageName;
+	public void setPackageName() {
 	}
 
 	private static class ViewHolder {
