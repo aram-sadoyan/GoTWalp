@@ -39,25 +39,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-	//1 Make a note of your new app ID. You'll need to add it to your app's source code to run AdMob.
-	//ca-app-pub-6630049462645854~6334922802
-	//Create an ad unit to display ads in your app.
-	//If your app is published to Google Play or the App Store, remember to come back to link your app.
-
-
-//	Banner	ca-app-pub-3940256099942544/6300978111
-//	Interstitial	ca-app-pub-3940256099942544/1033173712
-//	Rewarded Video	ca-app-pub-3940256099942544/5224354917
-//	Native Advanced	ca-app-pub-3940256099942544/2247696110
-//	Native Express	(Small template): ca-app-pub-3940256099942544/2793859312
-//			(Large template): ca-app-pub-3940256099942544/2177258514
-
-
-	//for test app id ca-app-pub-3940256099942544~3347511713;
-
 	private AdView adView = null;
-
-	//private String testBannerAd = "ca-app-pub-3940256099942544/6300978111";
 
 	private LinearLayout imageContainer = null;
 	private List<Bitmap> bitmaps = new ArrayList<>();
@@ -155,12 +137,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 			}
 		});
 		interstitialAd = new InterstitialAd(this);
-		interstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+		interstitialAd.setAdUnitId("ca-app-pub-6630049462645854/9372689657");
 		interstitialAd.loadAd(new AdRequest.Builder().build());
 		final AdRequest adRequest = new AdRequest.Builder()
-				.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-				//TODO REMOVE FOR RELEASE
-				.addTestDevice("98020A4CA653CBDED5EB3A03818ED4B1")
 				.build();
 
 		adView.setAdListener(new AdListener() {

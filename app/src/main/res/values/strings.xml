@@ -10,13 +10,7 @@
     <!-- AdMob ad unit IDs -->
     <string name="admob_app_id">ca-app-pub-6630049462645854~1594271987</string>
 
-
-    <string name="banner_home_footer">ca-app-pub-XXXXXXXX~XXXXXXXXXXX</string>
-    <string name="interstitial_full_screen">ca-app-pub-XXXXXXXX~XXXXXXXXXXX</string>
-    <string name="rewarded_video">ca-app-pub-XXXXXXXX~XXXXXXXXXXX</string>
-
-    //todo fix release banner id
-    <string name="test_banner_home_footer">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="test_banner_home_footer">ca-app-pub-6630049462645854/4491898069</string>
 
     <string name="no_network">No Internet Connection</string>
 
