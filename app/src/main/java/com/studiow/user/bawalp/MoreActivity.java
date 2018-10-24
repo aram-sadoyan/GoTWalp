@@ -1,4 +1,4 @@
-package com.example.user.gotwalp;
+package com.studiow.user.bawalp;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
+
 import java.util.ArrayList;
 
 public class MoreActivity extends AppCompatActivity {
@@ -35,7 +37,6 @@ public class MoreActivity extends AppCompatActivity {
 		}
 
 		MoreListAdapter moreListAdapter = new MoreListAdapter(this, R.layout.list_item, infoParamses);
-		//moreListAdapter.setPackageName();
 		listView.setAdapter(moreListAdapter);
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override

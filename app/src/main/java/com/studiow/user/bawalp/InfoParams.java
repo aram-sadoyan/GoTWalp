@@ -1,4 +1,4 @@
-package com.example.user.gotwalp;
+package com.studiow.user.bawalp;
 
 import android.graphics.Bitmap;
 import android.os.Parcel;
@@ -39,11 +39,11 @@ public class InfoParams implements Parcelable {
 	}
 
 
-	public InfoParams(){
+	InfoParams(){
 
 	}
 
-	protected InfoParams(Parcel in){
+	private InfoParams(Parcel in){
 		title = in.readString();
      	action = in.readString();
 		imageBitmap = in.readParcelable(getClass().getClassLoader());

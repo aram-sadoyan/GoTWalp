@@ -1,21 +1,21 @@
-package com.example.user.gotwalp;
+package com.studiow.user.bawalp;
 
 import android.app.WallpaperManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -32,6 +32,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -56,10 +57,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 	private AdView adView = null;
 
-	private String testBannerAd = "ca-app-pub-3940256099942544/6300978111";
+	//private String testBannerAd = "ca-app-pub-3940256099942544/6300978111";
 
 	private LinearLayout imageContainer = null;
-	private TextView textView = null;
 	private List<Bitmap> bitmaps = new ArrayList<>();
 	private ArrayList<String[]> moreAppParams = new ArrayList<>();
 
@@ -70,10 +70,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 	private ProgressBar progressBar = null;
 	private WallpaperManager wallpaperManager = null;
 	private InterstitialAd interstitialAd;
-	private DatabaseReference databaseReference;
 	private boolean wantsToOpen = false;
+	private boolean needToToast = false;
 
-	public ArrayList<InfoParams> infoParamses = new ArrayList<>();
+	public ArrayList<InfoParams> infoParams = new ArrayList<>();
 
 
 	@Override
@@ -87,16 +87,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		next = findViewById(R.id.right);
 		more = findViewById(R.id.more);
 		progressBar = findViewById(R.id.progress_bar);
+
+
+		AssetManager assetManager = getAssets();
 		enableClick();
-		textView = findViewById(R.id.textView1);
 		wallpaperManager = WallpaperManager.getInstance(getApplicationContext());
-		databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://wallpapers-63650.firebaseio.com/");
-		databaseReference.addValueEventListener(new ValueEventListener() {
+		DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://wallpapers-63650.firebaseio.com/");
+
+		try {
+			String[] imgPath = assetManager.list("bImage");
+			for (String anImgPath : imgPath) {
+				InputStream is = assetManager.open("bImage/" + anImgPath);
+				Bitmap bitmap = BitmapFactory.decodeStream(is);
+				bitmaps.add(bitmap);
+				bitMapSize = bitmaps.size();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		initViewByPos(0);
+
+		databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
 			public void onDataChange(DataSnapshot dataSnapshot) {
-				Log.d("dwd", "ondataSetChanged");
 				Map<String, Map> map = (Map<String, Map>) dataSnapshot.getValue();
 				moreAppParams.clear();
+				if (map == null) {
+					return;
+				}
 				espectedCount = map.size();
 				for (int i = 0; i < espectedCount; i++) {
 					final Map map1 = map.get("params" + String.valueOf(i));
@@ -107,17 +126,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 					moreAppParams.add(moreAppParamsInner);
 
 					final int finalI1 = i;
-					Glide.with(MainActivity.this).load(String.valueOf(map1.get("url")))
+					Glide.with(getApplicationContext()).load(String.valueOf(map1.get("url")))
 							.asBitmap()
-							.into(new SimpleTarget<Bitmap>(50,50) {
+							.into(new SimpleTarget<Bitmap>(50, 50) {
 								@Override
 								public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
 									InfoParams infoParams = new InfoParams();
 									infoParams.setAction(String.valueOf(map1.get("action")));
 									infoParams.setImageBitmap(resource);
 									infoParams.setTitle(String.valueOf(map1.get("title")));
-									infoParamses.add(infoParams);
-									if (wantsToOpen && espectedCount-1 == finalI1){
+									MainActivity.this.infoParams.add(infoParams);
+									if (wantsToOpen && espectedCount - 1 == finalI1) {
 										progressBar.setVisibility(View.GONE);
 										openMoreActivity();
 									}
@@ -125,13 +144,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 								}
 							});
 				}
+				if (moreAppParams != null && !moreAppParams.isEmpty() && moreAppParams.size() != 1) {
+					more.setVisibility(View.VISIBLE);
 
-
+				}
 			}
 
 			@Override
 			public void onCancelled(DatabaseError databaseError) {
-				Log.d("dwd", "onError ");
 			}
 		});
 		interstitialAd = new InterstitialAd(this);
@@ -147,22 +167,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 			@Override
 			public void onAdLoaded() {
 				super.onAdLoaded();
-
-				//Log.d("dwd", "onAdLoaded");
 			}
 
 			@Override
 			public void onAdClosed() {
 				super.onAdClosed();
-				Log.d("dwd", "onAdClosed");
-
 			}
 
 			@Override
 			public void onAdFailedToLoad(int i) {
 				super.onAdFailedToLoad(i);
-				Log.d("dwd", "onAdFailedToLoad");
-
 			}
 
 			@Override
@@ -173,8 +187,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 			@Override
 			public void onAdOpened() {
 				super.onAdOpened();
-				Log.d("dwd", "onAdOpened");
-
 			}
 		});
 
@@ -182,41 +194,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 			@Override
 			public void onAdLoaded() {
 				// Code to be executed when an ad finishes loading.
-				//Log.d("dwd", "loaded IN");
-
 			}
 
 			@Override
 			public void onAdFailedToLoad(int errorCode) {
 				// Code to be executed when an ad request fails.
-				Log.d("dwd", "failedToLoad IN");
-
 			}
 
 			@Override
 			public void onAdOpened() {
 				// Code to be executed when the ad is displayed.
-				Log.d("dwd", "ad opened IN");
-
 			}
 
 			@Override
 			public void onAdLeftApplication() {
 				// Code to be executed when the user has left the app.
-				Log.d("dwd", "onLeftppli IN");
-
 			}
 
 			@Override
 			public void onAdClosed() {
 				// Code to be executed when when the interstitial ad is closed.
-				Log.d("dwd", "onAd Closed IN");
 				interstitialAd.loadAd(new AdRequest.Builder().build());
+				if (needToToast) {
+					Toast.makeText(MainActivity.this, "walpaper has changed", Toast.LENGTH_LONG).show();
+				}
 
 			}
-
 		});
-
 		adView.loadAd(adRequest);
 
 
@@ -231,8 +235,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		imageContainer.removeAllViews();
 		imageContainer.addView(imageView);
 		currentPos = i;
-		textView.setText(String.valueOf(i));
-
 	}
 
 
@@ -277,7 +279,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 	private void openMoreActivity() {
 		Intent intent = new Intent(MainActivity.this, MoreActivity.class);
-		intent.putExtra("moreAppParms", infoParamses);
+		intent.putExtra("moreAppParms", infoParams);
 		startActivity(intent);
 	}
 
@@ -286,14 +288,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		switch (v.getId()) {
 			case R.id.more:
 				if (isConnected(this)) {
-					if (!infoParamses.isEmpty()) {
+					if (!infoParams.isEmpty()) {
 						progressBar.setVisibility(View.GONE);
 						openMoreActivity();
 					} else {
 						wantsToOpen = true;
 						progressBar.setVisibility(View.VISIBLE);
 					}
-
 				} else {
 					Toast.makeText(this, R.string.no_network, Toast.LENGTH_SHORT).show();
 				}
@@ -311,15 +312,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 							runOnUiThread(new Runnable() {
 								@Override
 								public void run() {
-									Toast.makeText(MainActivity.this, "walpaper has changed", Toast.LENGTH_SHORT).show();
 									progressBar.setVisibility(View.INVISIBLE);
 									enableClick();
 									if (interstitialAd.isLoaded()) {
 										interstitialAd.show();
+										needToToast = true;
+									} else {
+										Toast.makeText(MainActivity.this, "walpaper has changed", Toast.LENGTH_LONG).show();
 									}
 								}
 							});
-
 						} catch (IOException e) {
 							e.printStackTrace();
 						}

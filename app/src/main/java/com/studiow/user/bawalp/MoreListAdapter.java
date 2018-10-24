@@ -1,4 +1,4 @@
-package com.example.user.gotwalp;
+package com.studiow.user.bawalp;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -11,13 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
-
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 import java.util.List;
-
 
 /**
  * Created by AramSadoyan on 2/26/18.
@@ -25,14 +21,11 @@ import java.util.List;
 
 public class MoreListAdapter extends ArrayAdapter<InfoParams> {
 
-
 	private Context context;
-
 
 	MoreListAdapter(@NonNull Context context, @LayoutRes int resource, List moreAppParams) {
 		super(context, resource, moreAppParams);
 		this.context = context;
-
 	}
 
 
@@ -40,7 +33,6 @@ public class MoreListAdapter extends ArrayAdapter<InfoParams> {
 	@Override
 	public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 		InfoParams infoParam = getItem(position);
-
 		ViewHolder viewHolder;
 		if (convertView == null) {
 			viewHolder = new ViewHolder();
@@ -53,26 +45,21 @@ public class MoreListAdapter extends ArrayAdapter<InfoParams> {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		viewHolder.txtName.setText(infoParam.getTitle());
-
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		if(infoParam == null){
+			return convertView;
+		}
 		infoParam.getImageBitmap().compress(Bitmap.CompressFormat.PNG, 100, stream);
 		Glide.with(context)
 				.load(stream.toByteArray())
 				.asBitmap()
 				.into(viewHolder.imgInfo);
+		viewHolder.txtName.setText(infoParam.getTitle());
 		return convertView;
-	}
-
-	public void setPackageName() {
 	}
 
 	private static class ViewHolder {
 		TextView txtName;
-
 		ImageView imgInfo;
 	}
-
-
-
 }
