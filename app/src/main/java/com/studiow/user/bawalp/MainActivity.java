@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 	private AdView adView = null;
 
 	private LinearLayout imageContainer = null;
-	private List<Bitmap> bitmaps = new ArrayList<>();
 	private ArrayList<String[]> moreAppParams = new ArrayList<>();
 
 	private int currentPos = 0;
@@ -56,6 +55,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 	private boolean needToToast = false;
 
 	public ArrayList<InfoParams> infoParams = new ArrayList<>();
+	public ArrayList<String> paths = new ArrayList<>();
+
+
+	AssetManager assetManager;
 
 
 	@Override
@@ -71,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		progressBar = findViewById(R.id.progress_bar);
 
 
-		AssetManager assetManager = getAssets();
+		assetManager = getAssets();
 		enableClick();
 		wallpaperManager = WallpaperManager.getInstance(getApplicationContext());
 		DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://wallpapers-63650.firebaseio.com/");
@@ -79,10 +82,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		try {
 			String[] imgPath = assetManager.list("bImage");
 			for (String anImgPath : imgPath) {
-				InputStream is = assetManager.open("bImage/" + anImgPath);
-				Bitmap bitmap = BitmapFactory.decodeStream(is);
-				bitmaps.add(bitmap);
-				bitMapSize = bitmaps.size();
+				paths.add(anImgPath);
+				bitMapSize = paths.size();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -207,7 +208,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 	private void initViewByPos(int i) {
 		ImageView imageView = new ImageView(getApplicationContext());
-		imageView.setImageBitmap(bitmaps.get(i));
+		imageView.setImageBitmap(getBitmap(i));
 		ViewGroup.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 		imageView.setLayoutParams(params);
 		imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -215,6 +216,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		imageContainer.addView(imageView);
 		currentPos = i;
 	}
+
+	private Bitmap getBitmap(int position){
+		String anImgPath = paths.get(position);
+		InputStream is = null;
+		try {
+			is = assetManager.open("bImage/" + anImgPath);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return BitmapFactory.decodeStream(is);
+	}
+
 
 
 	@Override
@@ -287,7 +301,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 				Thread t = new Thread(new Runnable() {
 					public void run() {
 						try {
-							wallpaperManager.setBitmap(bitmaps.get(currentPos));
+							wallpaperManager.setBitmap(getBitmap(currentPos));
 							runOnUiThread(new Runnable() {
 								@Override
 								public void run() {
