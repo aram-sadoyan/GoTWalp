@@ -13,5 +13,7 @@
     <string name="test_banner_home_footer">ca-app-pub-6630049462645854/4491898069</string>
 
     <string name="no_network">No Internet Connection</string>
+    <string name="facebook_app_id">772024833189983</string>
+
 
 </resources>

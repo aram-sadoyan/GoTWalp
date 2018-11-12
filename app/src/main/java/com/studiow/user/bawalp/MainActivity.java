@@ -36,6 +36,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import com.facebook.FacebookSdk;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -137,11 +139,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 			public void onCancelled(DatabaseError databaseError) {
 			}
 		});
-		interstitialAd = new InterstitialAd(this);
-		interstitialAd.setAdUnitId("ca-app-pub-6630049462645854/9372689657");
-		interstitialAd.loadAd(new AdRequest.Builder().build());
-		final AdRequest adRequest = new AdRequest.Builder()
-				.build();
+//		interstitialAd = new InterstitialAd(this);
+//		interstitialAd.setAdUnitId("ca-app-pub-6630049462645854/9372689657");
+//		interstitialAd.loadAd(new AdRequest.Builder().build());
+//		final AdRequest adRequest = new AdRequest.Builder()
+//				.build();
 
 		adView.setAdListener(new AdListener() {
 			@Override
@@ -170,38 +172,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 			}
 		});
 
-		interstitialAd.setAdListener(new AdListener() {
-			@Override
-			public void onAdLoaded() {
-				// Code to be executed when an ad finishes loading.
-			}
-
-			@Override
-			public void onAdFailedToLoad(int errorCode) {
-				// Code to be executed when an ad request fails.
-			}
-
-			@Override
-			public void onAdOpened() {
-				// Code to be executed when the ad is displayed.
-			}
-
-			@Override
-			public void onAdLeftApplication() {
-				// Code to be executed when the user has left the app.
-			}
-
-			@Override
-			public void onAdClosed() {
-				// Code to be executed when when the interstitial ad is closed.
-				interstitialAd.loadAd(new AdRequest.Builder().build());
-				if (needToToast) {
-					Toast.makeText(MainActivity.this, "walpaper has changed", Toast.LENGTH_LONG).show();
-				}
-
-			}
-		});
-		adView.loadAd(adRequest);
+//		interstitialAd.setAdListener(new AdListener() {
+//			@Override
+//			public void onAdLoaded() {
+//				// Code to be executed when an ad finishes loading.
+//			}
+//
+//			@Override
+//			public void onAdFailedToLoad(int errorCode) {
+//				// Code to be executed when an ad request fails.
+//			}
+//
+//			@Override
+//			public void onAdOpened() {
+//				// Code to be executed when the ad is displayed.
+//			}
+//
+//			@Override
+//			public void onAdLeftApplication() {
+//				// Code to be executed when the user has left the app.
+//			}
+//
+//			@Override
+//			public void onAdClosed() {
+//				// Code to be executed when when the interstitial ad is closed.
+////				interstitialAd.loadAd(new AdRequest.Builder().build());
+////				if (needToToast) {
+////					Toast.makeText(MainActivity.this, "walpaper has changed", Toast.LENGTH_LONG).show();
+////				}
+//
+//			}
+//		});
+		//adView.loadAd(adRequest);
 
 
 	}
@@ -307,12 +309,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 								public void run() {
 									progressBar.setVisibility(View.INVISIBLE);
 									enableClick();
-									if (interstitialAd.isLoaded()) {
-										interstitialAd.show();
-										needToToast = true;
-									} else {
-										Toast.makeText(MainActivity.this, "walpaper has changed", Toast.LENGTH_LONG).show();
-									}
+//									if (interstitialAd.isLoaded()) {
+//										interstitialAd.show();
+//										needToToast = true;
+//									} else {
+//										Toast.makeText(MainActivity.this, "walpaper has changed", Toast.LENGTH_LONG).show();
+//									}
 								}
 							});
 						} catch (IOException e) {
